@@ -1,0 +1,50 @@
+{
+  "name": "luis-msgraph-bot",
+  "padlock": "",
+  "version": "2.0",
+  "services": [
+    {
+      "tenantId": "<Tenant ID>",
+      "subscriptionId": "<Azure Subscription ID>",
+      "resourceGroup": "",
+      "serviceName": "luis-msgraph-bot",
+      "type": "abs",
+      "name": "luis-msgraph-bot",
+      "id": "1"
+    },
+    {
+      "connectionString": "",
+      "tenantId": "",
+      "subscriptionId": "",
+      "resourceGroup": "",
+      "serviceName": "",
+      "type": "blob",
+      "id": "2"
+    },
+    {
+      "appId": "<Microsoft App Id>",
+      "appPassword": "<Microsoft App Password>",
+      "endpoint": "http://localhost:3978/api/messages",
+      "type": "endpoint",
+      "name": "development",
+      "id": "3"
+    },
+    {
+      "appId": "<Microsoft App ID>",
+      "appPassword": "<Microsoft App Password>",
+      "endpoint": "https://luis-msgraph-bot.azurewebsites.net/api/messages",
+      "type": "endpoint",
+      "name": "production",
+      "id": "4"
+    },    
+    {
+      "appId": "<LUIS APP ID>",
+      "authoringKey": "<LUIS Authoring Key>",
+      "version": "0.1",
+      "region": "<LUIS REGIONS>",
+      "type": "luis",
+      "name": "<LUIS Name>",
+      "id": "6"
+    }
+  ]
+}
