@@ -64,8 +64,7 @@ const adapter = new BotFrameworkAdapter({
 adapter.onTurnError = async (context, error) => {
     // This check writes out errors to console log
     // NOTE: In production environment, you should consider logging this to Azure
-    //       application insights.
-    //console.log(context);
+    //       application insights.    
     console.error(`\n [onTurnError]: ${ error }`);
     // Send a message to the user
     await context.sendActivity(`Oops. Something went wrong!`);
@@ -93,7 +92,7 @@ conversationState = new ConversationState(memoryStorage);
 // Add botbuilder-azure when using any Azure services. 
  //const { BlobStorage } = require('botbuilder-azure');
 // // Get service configuration
- //const blobStorageConfig = botConfig.findServiceByNameOrId("ktsbotstorage");
+ //const blobStorageConfig = botConfig.findServiceByNameOrId("<bot storage name>");
  //const blobStorage = new BlobStorage({
  //    containerName: (blobStorageConfig.container || DEFAULT_BOT_CONTAINER),
  //    storageAccountOrConnectionString: blobStorageConfig.connectionString,

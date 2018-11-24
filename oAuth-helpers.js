@@ -24,7 +24,7 @@ class OAuthHelpers {
 }
 
 static async listMe(turnContext, tokenResponse) {
-   // console.log(turnContext);
+   // console.log("Context:" + turnContext);
         if (!turnContext) {
             throw new Error('OAuthHelpers.listMe(): `turnContext` cannot be undefined.');
         }
@@ -32,15 +32,14 @@ static async listMe(turnContext, tokenResponse) {
             throw new Error('OAuthHelpers.listMe(): `tokenResponse` cannot be undefined.');
         }
 
-        try {
-               // console.log(tokenResponse.token);
+        try {               
             // Pull in the data from Microsoft Graph.
             const client = new SimpleGraphClient(tokenResponse.token);
             
             const me = await client.getMe();
-            //console.log(me);
+            
             const manager = await client.getManager();
-            //console.log(manager);
+            
 
             // Create the reply activity.
             let reply = { type: ActivityTypes.Message };
@@ -83,7 +82,7 @@ static async listRecentMail(turnContext, tokenResponse) {
 }
 
  static prompt(connectionName) {
-         //console.log(connectionName);
+         //console.log("Graph API Connection: " + connectionName);
         const loginPrompt = new OAuthPrompt(LOGIN_PROMPT,
             {
                 connectionName: connectionName,

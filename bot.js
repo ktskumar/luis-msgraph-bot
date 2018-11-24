@@ -30,6 +30,9 @@ class BasicBot {
      * 4. DialogSet to handle our GreetingDialog
      *
      * @param {ConversationState} conversationState property accessor
+     * @param {application} LUISApplication property accessor
+     * @param {luisPredictionOptions} PredictionOptions property accessor
+     * @param {includeApiResults} APIResults Application property accessor
      
      */
 
@@ -65,34 +68,6 @@ class BasicBot {
 
     }
 
-// constructor(conversationState) {
-//     this.conversationState = conversationState;
-
-//     // DialogState property accessor. Used to keep persist DialogState when using DialogSet.
-//     this.dialogState = conversationState.createProperty('dialogState');
-//     this.commandState = conversationState.createProperty('commandState');
-
-//     // Instructions for the user with information about commands that this bot may handle.
-//     this.helpMessage = `You can type "send <recipient_email>" to send an email, "recent" to view recent unread mail,` +
-//         ` "me" to see information about your, or "help" to view the commands` +
-//         ` again. Any other text will display your token.`;
-
-//     // Create a DialogSet that contains the OAuthPrompt.
-//     this.dialogs = new DialogSet(this.dialogState);
-
-//     // Add an OAuthPrompt with the connection name as specified on the Bot's settings blade in Azure.
-//     this.dialogs.add(OAuthHelpers.prompt(CONNECTION_SETTING_NAME));
-
-//     this._graphDialogId = 'graphDialog';
-
-//     // Logs in the user and calls proceeding dialogs, if login is successful.
-//     this.dialogs.add(new WaterfallDialog(this._graphDialogId, [
-//         this.promptStep.bind(this),
-//         this.processStep.bind(this)
-//     ]));
-// };
-
-   
 
     /**
      * Driver code that does one of the following:
@@ -101,26 +76,17 @@ class BasicBot {
      * 3. Start a greeting dialog
      * 4. Optionally handle Cancel or Help interruptions
      *
-     * @param {Context} context turn context from the adapter
+     * @param {Context} turnContext turn context from the adapter
      */
-    async onTurn(turnContext) {
-        //console.log(turnContext);
+    async onTurn(turnContext) {        
         const dc = await this.dialogs.createContext(turnContext);
         const results = await this.luisRecognizer.recognize(turnContext);
             
         switch (turnContext._activity.type) {
 
             case ActivityTypes.Message:
-
             this.luisResult = results;
-            
-            //if (topIntent.intent !== 'None' && topIntent !== "Greeting") 
-               // await turnContext.sendActivity(`LUIS Top Scoring Intent: ${ topIntent.intent }, Score: ${ topIntent.score }`);
-            
                 await this.processInput(dc);
-                
-                    
-               
                 break;
             case ActivityTypes.Event:
             case ActivityTypes.Invoke:
@@ -138,14 +104,11 @@ class BasicBot {
         default:
             await turnContext.sendActivity(`[${ turnContext._activity.type }]-type activity detected.`);
         }
-        
-        //await this.luisState.set(results);
         await this.conversationState.saveChanges(turnContext);
     }
     
     async sendWelcomeMessage(turnContext) {
-        const activity = turnContext.activity;
-        //console.log(activity);
+        const activity = turnContext.activity;        
         if (activity && activity.membersAdded) {
             const heroCard = CardFactory.heroCard(
                 'Welcome to LUIS with MSGraph API Authentication BOT!',
@@ -215,13 +178,11 @@ class BasicBot {
             await dc.continueDialog();
             if (!dc.context.responded) {
                 await dc.beginDialog(this._graphDialogId);
-            }
-            //console.log(luisResult);
+            }            
         }
 };
 
-async promptStep(step) {
-    //console.log(step.context.activity);
+async promptStep(step) {    
         const activity = step.context.activity;
 
         if (activity.type === ActivityTypes.Message && !(/\d{6}/).test(activity.text)) {
@@ -236,8 +197,7 @@ async processStep(step) {
         // We do not need to store the token in the bot. When we need the token we can
         // send another prompt. If the token is valid the user will not need to log back in.
         // The token will be available in the Result property of the task.
-        const tokenResponse = step.result;
-        //console.log(step.context);
+        const tokenResponse = step.result;       
 
         // If the user is authenticated the bot can use the token to make API calls.
         if (tokenResponse !== undefined) {

@@ -1,8 +1,7 @@
 const { Client } = require('@microsoft/microsoft-graph-client');
 
 class SimpleGraphClient {
-	constructor(token) {
-        //console.log(token);
+	constructor(token) {        
 		if (!token || !token.trim()) {
 			throw new Error('SimpleGraphClient: Invalid token received');
 		}
@@ -57,12 +56,10 @@ async getRecentMail() {
             });
 }
 
-async getMe() {
-    //console.log(this.graphClient);
+async getMe() {    
         return await this.graphClient
             .api('/me')
-            .get().then((res) => {
-               // console.log(res);
+            .get().then((res) => {               
                 return res;
             });
 }
@@ -71,8 +68,7 @@ async getManager() {
         return await this.graphClient
             .api('/me/manager')
             .version('beta')            
-            .get().then((res) => {
-               // console.log(res);
+            .get().then((res) => {               
                 return res;
             });
 }
